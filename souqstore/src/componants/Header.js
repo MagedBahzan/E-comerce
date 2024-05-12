@@ -1,36 +1,43 @@
 import React from "react";
 import "../Layout-styles.css";
+import "./styles/Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 function Header(props) {
+  const [navData, setNavData] = React.useState(null);
   const [navBarItems, setNavBarItems] = React.useState(null);
-  const [navBarItems2, setNavBarItems2] = React.useState(null);
   React.useEffect(() => {
     fetch(`/api/products`)
       .then((res) => res.json())
-      .then((data) => setNavBarItems(data.products.map((ele) => ele.category)));
+      .then((data) => setNavData(data.products.map((ele) => ele.category)));
   }, []);
 
-  function filterdItems() {
+  React.useEffect(() => {
     let xItems = [];
-    if (navBarItems) {
-      for (let i = 0; i <= navBarItems.length; i++) {
+    if (navData) {
+      for (let i = 0; i <= navData.length; i++) {
         if (
-          navBarItems[i] !== navBarItems[i + 1] &&
-          xItems.includes(navBarItems[i]) === false
+          navData[i] !== navData[i + 1] &&
+          xItems.includes(navData[i]) === false
         ) {
-          xItems.push(navBarItems[i]);
+          xItems.push(navData[i]);
         }
       }
-      console.log(xItems);
-      // setNavBarItems2(xItems);
+      setNavBarItems(xItems);
     }
-  }
-  filterdItems();
+  }, [navData]);
 
-  console.log(navBarItems ? navBarItems2 : null);
+  const navBar = navBarItems
+    ? navBarItems.map((ele, index) => {
+        return (
+          <div key={index} className="nav-itm-con">
+            <NavLink to={ele}>{ele}</NavLink>
+          </div>
+        );
+      })
+    : null;
 
   return (
     <div className="header-section">
@@ -57,7 +64,22 @@ function Header(props) {
           </div>
         </div>
       </div>
-      {/* <div className="nav-bar">{navBarCat}</div> */}
+      <div className="top-bannr">
+        <div>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="todays-Offers">Today's Offers</NavLink>
+          <NavLink to="Trending">Trending</NavLink>
+          <NavLink to="best-sellers">Best Sellers</NavLink>
+          <NavLink to="new-releases">New Releases</NavLink>
+          <NavLink to="about">About Us</NavLink>
+          <NavLink to="contact">Contact Us</NavLink>
+        </div>
+        <div>
+          <NavLink to="login">Login</NavLink>
+          <NavLink to="sign-up">Sign Up</NavLink>
+        </div>
+      </div>
+      <div className="nav-bar">{navBar}</div>
     </div>
   );
 }
