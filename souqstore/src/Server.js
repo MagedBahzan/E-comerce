@@ -31,7 +31,7 @@ createServer({
       id: 4,
       name: "Refrigerator",
       price: 1500,
-      category: "Home Appliances",
+      category: "Books",
       image: "./images/M63H24W7JF0-L302-ALTGHOST.jpg",
     });
     server.create("product", {
@@ -508,7 +508,7 @@ createServer({
       name: "Garden Hose",
       price: 50,
       category: "Garden & Outdoor",
-      image: "https://www.amazon.com/Melnor-15",
+      image: "./images/HWVG6216060-TAN.jpg",
     });
     server.create("product", {
       id: 73,
@@ -701,13 +701,6 @@ createServer({
     });
     server.create("product", {
       id: 100,
-      name: "Baby Gear",
-      price: 150,
-      category: "Baby",
-      image: "./images/FLGLO4FAL12-BEIBR.jpg",
-    });
-    server.create("product", {
-      id: 101,
       name: "Baby Gear",
       price: 150,
       category: "Baby",

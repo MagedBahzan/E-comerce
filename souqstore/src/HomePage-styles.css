@@ -42,3 +42,18 @@
 .items-filtre-container {
   width: 20%;
 }
+.navgation-btn {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navgation-btn button {
+  width: 40%;
+  padding: 10px;
+  background-color: #7d4998;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+}

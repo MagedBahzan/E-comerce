@@ -1,19 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import "../HomePage-styles.css";
+import { NavLink, useParams } from "react-router-dom";
+import "./HomePage-styles.css";
 
-function ProductsContainer() {
+function ItemDetailes() {
+  const parm = useParams();
+  console.log(parm);
   const [theproducts, setTheproducts] = React.useState(null);
   const [counts, setCounts] = React.useState(25);
+
   React.useEffect(() => {
     fetch(`/api/products`)
       .then((res) => res.json())
       .then((data) => setTheproducts(data.products));
   }, []);
 
-  const curentProducts = theproducts
-    ? theproducts.filter((ele) => ele.id <= counts && ele.id >= counts - 24)
-    : null;
   function nextSlid() {
     setCounts((prev) => prev + 25);
     window.scrollTo({
@@ -27,10 +27,13 @@ function ProductsContainer() {
     });
   }
 
-  console.log(theproducts ? theproducts.length : null);
-  console.log(theproducts ? counts : null);
-  const displayData = theproducts ? (
-    curentProducts.map((ele) => {
+  const itmsFltr = theproducts
+    ? theproducts.filter((ele) => ele.category === parm.id)
+    : null;
+  console.log(itmsFltr);
+
+  const itmsshow = theproducts ? (
+    itmsFltr.map((ele) => {
       return (
         <NavLink key={ele.id} to={ele.id} className="item-container">
           <div className="product-image">
@@ -49,17 +52,19 @@ function ProductsContainer() {
   );
   return (
     <div className="Products-container">
-      <div className="all-Products">{displayData}</div>
-      <div className="navgation-btn">
-        {theproducts && counts > 25 ? (
-          <button onClick={backSlid}>Back</button>
-        ) : null}
-        {theproducts && theproducts.length === counts ? null : (
-          <button onClick={nextSlid}>Next</button>
-        )}
-      </div>
+      <div className="all-Products">{itmsshow}</div>
+      {theproducts && itmsFltr.length > 25 ? (
+        <div className="navgation-btn">
+          {theproducts && counts > 25 ? (
+            <button onClick={backSlid}>Back</button>
+          ) : null}
+          {theproducts && theproducts.length === counts ? null : (
+            <button onClick={nextSlid}>Next</button>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-export default ProductsContainer;
+export default ItemDetailes;
